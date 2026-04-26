@@ -1,0 +1,37 @@
+project: iris_feature_store
+project_description: >
+  # Проект: Iris Feature Store
+  
+  Хранилище признаков для датасета Iris.
+  Содержит признаки для классификации ирисов по видам.
+  
+  ## Функциональность
+  - Sepal features: длина и ширина чашелистика
+  - Petal features: длина и ширина лепестка
+  - Computed features: площадь чашелистика и лепестка
+
+provider: local
+registry:
+    registry_type: sql
+    path: postgresql+psycopg2://tuser:12345@localhost:5432/mydb?sslmode=disable
+    cache_ttl_seconds: 60
+    sqlalchemy_config_kwargs:
+        echo: false
+        pool_pre_ping: true
+online_store:
+    type: postgres
+    host: localhost
+    port: 5432
+    database: mydb
+    db_schema: public
+    user: tuser
+    password: 12345
+offline_store:
+    type: postgres
+    host: localhost
+    port: 5432
+    database: mydb
+    db_schema: public
+    user: tuser
+    password: 12345
+entity_key_serialization_version: 3

@@ -1,0 +1,34 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+      - src/prepare.py
+      - data/raw/iris.csv
+      - params.yaml
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - data/processed/label_classes.csv
+    params:
+      - prepare.test_size
+      - prepare.random_state
+  
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - params.yaml
+    outs:
+      - models/model.pkl
+      - models/classification_report.csv
+      - models/confusion_matrix.csv
+    metrics:
+      - metrics.json:
+          cache: false
+    params:
+      - train.model_type
+      - train.n_estimators
+      - train.max_depth
+      - train.random_state
