@@ -1,0 +1,11 @@
+dvc
+mlflow
+scikit-learn
+feast
+psycopg-binary
+psycopg2-binary
+psycopg_pool
+sqlalchemy
+joblib
+pyyaml
+pyarrow

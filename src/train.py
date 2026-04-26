@@ -11,6 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import logging
+import json
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -156,8 +157,21 @@ def train_model(
 
             logger.info(f"Важность признаков:\n{feature_importance}")
 
-        logger.info("Логирования в MLflow завершено")
+        # Сохранение метрик в metrics.json
+        metrics = {
+            "train_accuracy": float(train_accuracy),
+            "test_accuracy": float(test_accuracy),
+            "train_size": len(X_train),
+            "test_size": len(X_test),
+            "model_type": model_name
+        }
+        with open("metrics.json", "w") as f:
+            json.dump(metrics, f, indent=4)
 
+        logger.info("Метрики сохранены в metrics.json")
+
+        logger.info("Логирования в MLflow завершено")
+        
         # Краткая сводка
         print("\n" + "=" * 50)
         print("Краткая сводка")

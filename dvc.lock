@@ -1,0 +1,83 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 013d0da08d6506664ce640459139176b
+      size: 3858
+    - path: params.yaml
+      hash: md5
+      md5: fcea699f54e45daaf874602988571ace
+      size: 344
+    - path: src/prepare.py
+      hash: md5
+      md5: e81dac99fdbfa9bc719a40a4fe1347f7
+      size: 4160
+    params:
+      params.yaml:
+        prepare.random_state: 42
+        prepare.test_size: 0.2
+    outs:
+    - path: data/processed/label_classes.csv
+      hash: md5
+      md5: 4a3489cb0ca818d7c12bcde4b8490471
+      size: 50
+      isexec: true
+    - path: data/processed/test.csv
+      hash: md5
+      md5: b72df8f3af02e887b6f7b6b30b48ab6a
+      size: 606
+      isexec: true
+    - path: data/processed/train.csv
+      hash: md5
+      md5: b1bf8f455c9096720cc14b6558419f47
+      size: 2226
+      isexec: true
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: b72df8f3af02e887b6f7b6b30b48ab6a
+      size: 606
+    - path: data/processed/train.csv
+      hash: md5
+      md5: b1bf8f455c9096720cc14b6558419f47
+      size: 2226
+    - path: params.yaml
+      hash: md5
+      md5: fcea699f54e45daaf874602988571ace
+      size: 344
+    - path: src/train.py
+      hash: md5
+      md5: 329af36c8ef2bc3beee0380bd46d90b5
+      size: 8201
+    params:
+      params.yaml:
+        train.max_depth: 5
+        train.model_type: random_forest
+        train.n_estimators: 100
+        train.random_state: 42
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 3beccad2b68402743f6855e9c2ce78bf
+      size: 148
+      isexec: true
+    - path: models/classification_report.csv
+      hash: md5
+      md5: a463e779983fbd601715f962ea3eacf6
+      size: 324
+      isexec: true
+    - path: models/confusion_matrix.csv
+      hash: md5
+      md5: 43688ac152c6ccb64ac19365774eb446
+      size: 25
+      isexec: true
+    - path: models/model.pkl
+      hash: md5
+      md5: ce5f76e396be844d4ccac72aa2d194c5
+      size: 163521
+      isexec: true
